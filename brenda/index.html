@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Brenda Nails · Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles/base.css" />
+  <link rel="stylesheet" href="./styles/components.css" />
+  <link rel="stylesheet" href="./styles/pages.css" />
+</head>
+<body>
+  <!-- LOGIN -->
+  <div id="login-screen">
+    <div class="login-box">
+      <div class="login-icon brand-logo" aria-label="Logo Brenda Nails"></div>
+      <div class="login-title">Brenda Nails</div>
+      <div class="login-sub">Área Administrativa</div>
+      <label class="login-label" for="email">E-mail</label>
+      <input class="login-input" type="email" id="email" name="email" placeholder="seuemail@dominio.com" autocomplete="email" />
+      <label class="login-label" for="senha">Senha de acesso</label>
+      <input class="login-input" type="password" id="senha" name="senha" placeholder="••••••••" autocomplete="current-password" />
+      <button class="login-btn" id="btn-entrar">Entrar</button>
+      <div class="login-error" id="login-error"></div>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="app">
+    <div class="header">
+      <div class="header-inner">
+        <div class="brand">
+          <div class="brand-icon brand-logo" aria-label="Logo Brenda Nails"></div>
+          <div>
+            <span class="brand-name">Brenda Nails</span>
+            <span class="brand-sub">Admin</span>
+          </div>
+        </div>
+        <button class="logout-btn" id="btn-sair">Sair</button>
+      </div>
+    </div>
+
+    <div class="hero-strip">
+      <p>✦ Beleza nas pontas dos dedos ✦</p>
+    </div>
+
+    <div class="content">
+      <!-- TAB AGENDA -->
+      <div id="tab-agenda">
+        <div class="stats" id="stats-cont"></div>
+        <div class="sec-title">Agenda</div>
+        <div class="filter-row">
+          <input type="date" class="filter-input" id="filtro-data" autocomplete="off" />
+          <input class="filter-input" id="filtro-nome-aberto" placeholder="Filtrar por nome" autocomplete="off" />
+          <button class="btn-sm btn-wine" id="btn-hoje">Hoje</button>
+          <button class="btn-sm btn-outline" id="btn-todos">Todos</button>
+        </div>
+        <div class="sec-title" style="padding-top:8px;">Em aberto</div>
+        <div class="filter-row" style="padding-top:0;">
+          <button class="btn-sm btn-outline" id="btn-abertos">Ocultar em aberto</button>
+        </div>
+        <div id="agenda-open-list"></div>
+      </div>
+
+      <!-- TAB NOVO -->
+      <div id="tab-novo" style="display:none">
+        <div class="sec-title" id="form-title-sec">Novo Agendamento</div>
+        <div class="form-wrap">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="f-nome">Nome da cliente</label>
+              <input class="form-input" id="f-nome" name="nomeCliente" placeholder="Nome completo" autocomplete="name" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="f-tel">Telefone / WhatsApp</label>
+              <input class="form-input" id="f-tel" name="telefoneCliente" placeholder="(00) 00000-0000" type="tel" inputmode="tel" maxlength="15" autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="f-data">Data</label>
+              <input type="date" class="form-input" id="f-data" name="dataAgendamento" autocomplete="off" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="f-status">Status</label>
+              <select class="form-select" id="f-status" name="statusAgendamento" autocomplete="off">
+                <option value="confirmado">✓ Confirmado</option>
+                <option value="pendente">⏳ Pendente</option>
+                <option value="cancelado">✗ Cancelado</option>
+                <option value="concluido">★ Concluído</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="f-horario">Horário</label>
+            <input type="time" class="form-input" id="f-horario" name="horarioAgendamento" step="1800" autocomplete="off" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="f-servico">O que será feito</label>
+            <textarea class="form-textarea" id="f-servico" name="descricaoServico" placeholder="Ex: Manicure com esmaltação em gel, nail art floral, referência enviada no WhatsApp..." rows="3" autocomplete="off"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="f-obs">Observações adicionais</label>
+            <textarea class="form-textarea" id="f-obs" name="observacoesAgendamento" placeholder="Alergias, preferências, cor desejada..." rows="2" autocomplete="off"></textarea>
+          </div>
+
+          <button class="btn-primary" id="btn-salvar">Confirmar Agendamento</button>
+          <div style="height: 12px;"></div>
+        </div>
+      </div>
+
+      <!-- TAB PAINEL -->
+      <div id="tab-painel" style="display:none">
+        <div class="sec-title">Faturamento</div>
+        <div id="fat-section"></div>
+        <div class="sec-title">Finalizados</div>
+        <div class="filter-row" style="padding-top:0;">
+          <input class="filter-input" id="filtro-nome-finalizados" placeholder="Filtrar por nome" autocomplete="off" />
+          <input type="date" class="filter-input" id="filtro-data-finalizados" autocomplete="off" />
+          <button class="btn-sm btn-outline" id="btn-finalizados">Mostrar finalizados</button>
+        </div>
+        <div id="painel-finalizados-list"></div>
+      </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" id="nav-agenda">
+        <span class="nav-icon">🗓️</span>
+        <span class="nav-label">Agenda</span>
+      </button>
+      <button class="nav-item" id="nav-novo">
+        <span class="nav-icon">✦</span>
+        <span class="nav-label">Agendar</span>
+      </button>
+      <button class="nav-item" id="nav-painel">
+        <span class="nav-icon">📈</span>
+        <span class="nav-label">Painel</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- FINALIZAR MODAL -->
+  <div class="finalize-modal" id="fin-modal">
+    <div class="finalize-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title">Finalizar Atendimento</div>
+      <div class="sheet-name" id="fin-client-name"></div>
+      <div class="sheet-body">
+        <label class="sheet-label" for="fin-preco">Valor cobrado (R$)</label>
+        <input class="sheet-input" type="number" inputmode="decimal" id="fin-preco" name="valorCobrado" placeholder="Ex: 80,00" step="0.01" min="0" autocomplete="off" />
+        <label class="sheet-label" for="fin-obs">Observação final (opcional)</label>
+        <input class="sheet-input" id="fin-obs" name="observacaoFinal" placeholder="Ex: cliente adorou, repetiu nail art..." autocomplete="off" />
+        <button class="sheet-btn" id="btn-fin-confirm">Marcar como Concluído</button>
+        <span class="sheet-cancel" id="btn-fin-cancel">Cancelar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELETE MODAL -->
+  <div class="del-modal" id="del-modal">
+    <div class="del-box">
+      <div class="del-title">Excluir?</div>
+      <div class="del-sub">Esta ação não pode ser desfeita. O agendamento será removido.</div>
+      <div class="del-actions">
+        <button class="del-btn-ghost" id="btn-del-cancel">Cancelar</button>
+        <button class="del-btn-danger" id="btn-del-confirm">Excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Firebase (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+
+  <!-- App (ES Modules) -->
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

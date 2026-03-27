@@ -1,0 +1,36 @@
+:root {
+  --wine: #4a0724;
+  --wine-mid: #6b1238;
+  --rose: #b04a6d;
+  --rose-light: #cd7d9b;
+  --gold: #d7a06d;
+  --gold-light: #f2cc9d;
+  --cream: #fcf3eb;
+  --nude: #f1ddd0;
+  --nude-dark: #d9b49f;
+  --text: #2b0c17;
+  --bg: #fff7f2;
+  --white: #ffffff;
+  --radius: 14px;
+  --shadow: 0 2px 16px rgba(61,12,31,0.10);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--wine);
+  color: var(--text);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overscroll-behavior: none;
+}
+
+button:active { transform: translateY(0); }

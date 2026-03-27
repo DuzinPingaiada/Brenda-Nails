@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Brenda Nails · Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --wine: #4a0724;
+  --wine-mid: #6b1238;
+  --rose: #b04a6d;
+  --rose-light: #cd7d9b;
+  --gold: #d7a06d;
+  --gold-light: #f2cc9d;
+  --cream: #fcf3eb;
+  --nude: #f1ddd0;
+  --nude-dark: #d9b49f;
+  --text: #2b0c17;
+  --bg: #fff7f2;
+  --white: #ffffff;
+  --radius: 14px;
+  --shadow: 0 2px 16px rgba(61,12,31,0.10);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--wine);
+  color: var(--text);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overscroll-behavior: none;
+}
+
+/* ── LOGIN ── */
+#login-screen {
+  min-height: 100dvh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #fff8f2 0%, #f6e8dd 48%, #f1dbcd 100%);
+  padding: 32px 24px;
+  position: relative;
+  overflow: hidden;
+}
+#login-screen::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(176,74,109,0.08), transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(215,160,109,0.10), transparent 48%);
+}
+.login-box {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  text-align: center;
+}
+.brand-logo {
+  background-image: url('./assets/logo-brenda-ig.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: block;
+}
+.login-icon {
+  width: 104px;
+  height: 104px;
+  border-radius: 999px;
+  border: 2px solid rgba(215,160,109,0.82);
+  margin: 0 auto 18px;
+  background-color: rgba(255,255,255,0.25);
+  box-shadow:
+    0 0 0 6px rgba(176,74,109,0.07),
+    0 12px 28px rgba(74,7,36,0.22);
+  overflow: hidden;
+}
+.login-icon.brand-logo { border-radius: 999px; }
+
+.field-help {
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(74,7,36,0.55);
+  text-align: left;
+}
+.login-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--wine);
+  margin-bottom: 4px;
+}
+.login-sub {
+  font-size: 11px;
+  color: var(--rose);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+.login-label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--wine-mid);
+  text-align: left;
+  margin-bottom: 7px;
+  font-weight: 500;
+}
+.login-input {
+  width: 100%;
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(176,74,109,0.24);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  color: var(--text);
+  outline: none;
+  letter-spacing: 0.12em;
+  margin-bottom: 20px;
+  -webkit-appearance: none;
+  transition: border .2s;
+}
+.login-input:focus { border-color: var(--gold); }
+.login-input::placeholder { color: rgba(74,7,36,0.35); letter-spacing: 0.08em; }
+.login-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--rose), var(--gold));
+  color: var(--wine);
+  border: none;
+  border-radius: 30px;
+  padding: 15px;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-appearance: none;
+  transition: opacity .2s;
+}
+.login-btn:active { opacity: 0.85; }
+.login-error {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #ff8a80;
+  min-height: 20px;
+}
+
+/* ── APP ── */
+#app {
+  display: none;
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--wine);
+  position: sticky; top: 0; z-index: 100;
+  padding-top: env(safe-area-inset-top);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+}
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: 2px solid rgba(215,160,109,0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-color: rgba(255,255,255,0.18);
+  box-shadow:
+    0 0 0 4px rgba(176,74,109,0.06),
+    0 12px 20px rgba(0,0,0,0.18);
+}
+.brand-icon.brand-logo { border-radius: 999px; }
+
+/* Hover "translúcido" (efeito glass) */
+@media (hover:hover) {
+  button { transition: transform .14s ease, filter .14s ease, box-shadow .14s ease, background-color .14s ease, opacity .14s ease; }
+
+  .btn-primary:hover,
+  .login-btn:hover,
+  .sheet-btn:hover,
+  .del-btn-danger:hover {
+    filter: brightness(1.05) saturate(1.05);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.16);
+  }
+
+  .btn-sm:hover,
+  .logout-btn:hover,
+  .act-btn:hover,
+  .del-btn-ghost:hover,
+  .nav-item:hover {
+    background-color: rgba(255,255,255,0.10);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+    transform: translateY(-1px);
+  }
+
+  /* Não "apagar" botões sólidos (ex.: Hoje) */
+  .btn-wine:hover {
+    background: linear-gradient(135deg, var(--wine-mid), var(--wine));
+    color: var(--cream);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.14);
+  }
+
+  .btn-outline:hover {
+    background-color: rgba(176,74,109,0.10);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+    transform: translateY(-1px);
+  }
+}
+
+button:active { transform: translateY(0); }
+.brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--cream);
+}
+.brand-sub {
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 2px;
+}
+.logout-btn {
+  background: transparent;
+  border: 1px solid rgba(201,149,108,0.3);
+  color: var(--gold);
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 7px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--white);
+  border-top: 1px solid var(--nude-dark);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 100;
+  box-shadow: 0 -4px 20px rgba(61,12,31,0.08);
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  background: transparent;
+  transition: all .15s;
+  position: relative;
+  font-family: 'Jost', sans-serif;
+}
+.nav-item.active .nav-icon { color: var(--rose); }
+.nav-item.active .nav-label { color: var(--rose); font-weight: 600; }
+.nav-item.active::before {
+  content: '';
+  position: absolute; top: 0; left: 20%; right: 20%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--rose), var(--gold));
+  border-radius: 0 0 2px 2px;
+}
+.nav-icon {
+  font-size: 22px;
+  color: var(--nude-dark);
+  margin-bottom: 3px;
+  line-height: 1;
+}
+.nav-label {
+  font-size: 10px;
+  color: var(--nude-dark);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+/* ── CONTENT ── */
+.content {
+  padding: 0 0 calc(70px + env(safe-area-inset-bottom));
+}
+
+/* ── STRIP ── */
+.hero-strip {
+  background: linear-gradient(135deg, var(--rose), var(--wine-mid));
+  padding: 10px 16px;
+  text-align: center;
+}
+.hero-strip p {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--cream);
+  letter-spacing: 0.04em;
+}
+
+/* ── STATS ── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 14px 12px 0;
+}
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--nude-dark);
+  border-radius: 12px;
+  padding: 12px 8px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--rose), var(--gold));
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  color: var(--wine);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 9px;
+  color: var(--rose);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--wine);
+  padding: 20px 14px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--nude-dark), transparent);
+}
+
+/* ── FILTER ── */
+.filter-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 0 12px 12px;
+  flex-wrap: wrap;
+}
+.filter-input {
+  border: 1px solid var(--nude-dark);
+  background: var(--white);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  -webkit-appearance: none;
+  flex: 1;
+  min-width: 130px;
+}
+.btn-sm {
+  padding: 9px 16px;
+  border-radius: 20px;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: 600;
+  -webkit-appearance: none;
+  border: none;
+  white-space: nowrap;
+}
+.btn-wine { background: var(--wine-mid); color: var(--cream); }
+.btn-outline { background: transparent; color: var(--rose); border: 1px solid var(--rose) !important; }
+
+/* ── CARD ── */
+.apt-card {
+  background: var(--white);
+  border: 1px solid var(--nude-dark);
+  border-radius: var(--radius);
+  margin: 0 12px 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  animation: fadeIn .25s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+.card-top {
+  padding: 14px 14px 10px;
+  border-left: 4px solid var(--rose);
+}
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.client-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--wine);
+  line-height: 1.2;
+  flex: 1;
+  padding-right: 8px;
+}
+.time-badge {
+  background: var(--wine);
+  color: var(--gold-light);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+.card-servico {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag {
+  font-size: 11px;
+  padding: 3px 11px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.tag-price { background: #f5ede8; color: #7a3010; }
+.tag-date  { background: #ede8f5; color: #5a2d82; }
+
+.status-badge {
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.s-confirmado { background: #e8f5ee; color: #1a6b3c; }
+.s-pendente   { background: #fff8e1; color: #a06800; }
+.s-cancelado  { background: #fce8e8; color: #8b1a1a; }
+.s-concluido  { background: #ede8f5; color: #5a2d82; }
+
+.card-phone-row {
+  padding: 8px 14px;
+  border-top: 1px solid var(--nude);
+  background: var(--cream);
+}
+.card-phone-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #1a6b3c;
+  font-size: 14px;
+  font-weight: 500;
+}
+.card-obs {
+  padding: 8px 14px;
+  font-size: 12px;
+  color: #888;
+  font-style: italic;
+  border-top: 1px solid var(--nude);
+}
+.card-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--nude-dark);
+}
+.act-btn {
+  padding: 11px 4px;
+  font-size: 11px;
+  font-family: 'Jost', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  -webkit-appearance: none;
+  color: var(--rose);
+  border-right: 1px solid var(--nude);
+  transition: background .15s;
+}
+.act-btn:last-child { border-right: none; }
+.act-btn:active { background: var(--nude); }
+.act-btn.done  { color: #2e7d32; }
+.act-btn.cancel{ color: #c62828; }
+.act-btn.del   { color: #aaa; }
+
+/* ── FINALIZAR MODAL ── */
+.finalize-modal {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(61,12,31,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.finalize-modal.show { display: flex; }
+.finalize-sheet {
+  background: var(--white);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 0;
+  animation: fadeIn .22s ease;
+}
+.sheet-handle {
+  width: 40px; height: 4px;
+  background: var(--nude-dark);
+  border-radius: 2px;
+  margin: 12px auto 16px;
+}
+.sheet-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--wine);
+  text-align: center;
+  margin-bottom: 6px;
+}
+.sheet-name {
+  font-size: 13px;
+  color: var(--rose);
+  text-align: center;
+  margin-bottom: 20px;
+}
+.sheet-body { padding: 0 20px 20px; }
+.sheet-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--rose);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+.sheet-input {
+  width: 100%;
+  border: 1px solid var(--nude-dark);
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  color: var(--text);
+  outline: none;
+  margin-bottom: 14px;
+  -webkit-appearance: none;
+}
+.sheet-input:focus { border-color: var(--rose); }
+.sheet-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--wine-mid), var(--rose));
+  color: var(--cream);
+  border: none;
+  border-radius: 30px;
+  padding: 15px;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+.sheet-btn:active { opacity: 0.85; }
+.sheet-cancel {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #aaa;
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* ── DELETE MODAL ── */
+.del-modal {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(61,12,31,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.del-modal.show { display: flex; }
+.del-box {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 28px 22px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+}
+.del-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--wine); margin-bottom: 8px; }
+.del-sub { font-size: 13px; color: #888; margin-bottom: 22px; line-height: 1.5; }
+.del-actions { display: flex; gap: 10px; justify-content: center; }
+.del-btn-ghost { background: transparent; color: #888; border: 1px solid #ddd; border-radius: 20px; padding: 11px 22px; font-family: 'Jost', sans-serif; font-size: 13px; cursor: pointer; }
+.del-btn-danger { background: #c62828; color: #fff; border: none; border-radius: 20px; padding: 11px 22px; font-family: 'Jost', sans-serif; font-size: 13px; cursor: pointer; font-weight: 600; }
+
+/* ── FORM ── */
+.form-wrap { padding: 16px 12px 0; }
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.form-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--rose);
+  font-weight: 600;
+}
+.form-input, .form-select, .form-textarea {
+  border: 1px solid var(--nude-dark);
+  background: var(--white);
+  border-radius: 12px;
+  padding: 13px 14px;
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  color: var(--text);
+  outline: none;
+  -webkit-appearance: none;
+  width: 100%;
+  transition: border .2s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--rose); }
+.form-textarea { min-height: 80px; resize: vertical; font-size: 15px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* Horários */
+/* Submit */
+.btn-primary {
+  background: linear-gradient(135deg, var(--wine-mid), var(--rose));
+  color: var(--cream);
+  border: none;
+  border-radius: 30px;
+  padding: 16px;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 100%;
+  -webkit-appearance: none;
+  margin-top: 6px;
+}
+.btn-primary:disabled { opacity: 0.4; }
+.btn-primary:active:not(:disabled) { opacity: 0.85; }
+
+/* ── PAINEL ── */
+.fat-card {
+  background: linear-gradient(135deg, var(--wine) 0%, var(--rose) 100%);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin: 0 12px 12px;
+  color: var(--cream);
+}
+.fat-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  color: var(--gold-light);
+  margin-bottom: 12px;
+}
+.fat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.fat-item { text-align: center; }
+.fat-val { font-family: 'Playfair Display', serif; font-size: 22px; color: #fff; }
+.fat-lab { font-size: 9px; color: var(--gold-light); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; opacity: 0.85; }
+
+/* ── EMPTY ── */
+.empty-state {
+  text-align: center;
+  padding: 50px 24px;
+  color: var(--nude-dark);
+}
+.empty-state svg { margin: 0 auto 14px; display: block; }
+.empty-state p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: calc(70px + env(safe-area-inset-bottom) + 12px);
+  left: 50%; transform: translateX(-50%);
+  background: var(--wine);
+  color: var(--gold-light);
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  padding: 12px 22px;
+  border-radius: 30px;
+  border: 1px solid var(--gold);
+  box-shadow: 0 8px 30px rgba(61,12,31,0.4);
+  z-index: 999;
+  display: none;
+  white-space: nowrap;
+  animation: toastIn .3s ease;
+}
+@keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+.toast.show { display: block; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-icon brand-logo" aria-label="Logo Brenda Nails"></div>
+    <div class="login-title">Brenda Nails</div>
+    <div class="login-sub">Área Administrativa</div>
+    <label class="login-label">E-mail</label>
+    <input class="login-input" type="email" id="email" placeholder="seuemail@dominio.com" onkeydown="if(event.key==='Enter')entrar()">
+    <label class="login-label">Senha de acesso</label>
+    <input class="login-input" type="password" id="senha" placeholder="••••••••" onkeydown="if(event.key==='Enter')entrar()">
+    <button class="login-btn" onclick="entrar()">Entrar</button>
+    <div class="login-error" id="login-error"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon brand-logo" aria-label="Logo Brenda Nails"></div>
+        <div>
+          <span class="brand-name">Brenda Nails</span>
+          <span class="brand-sub">Admin</span>
+        </div>
+      </div>
+      <button class="logout-btn" onclick="sair()">Sair</button>
+    </div>
+  </div>
+
+  <div class="hero-strip">
+    <p>✦ Beleza nas pontas dos dedos ✦</p>
+  </div>
+
+  <div class="content">
+
+    <!-- TAB AGENDA -->
+    <div id="tab-agenda">
+      <div class="stats" id="stats-cont"></div>
+      <div class="sec-title">Agenda</div>
+      <div class="filter-row">
+        <input type="date" class="filter-input" id="filtro-data" onchange="renderAgenda()">
+        <input class="filter-input" id="filtro-nome-aberto" placeholder="Filtrar por nome" oninput="renderAgenda()">
+        <button class="btn-sm btn-wine" onclick="setHoje()">Hoje</button>
+        <button class="btn-sm btn-outline" onclick="document.getElementById('filtro-data').value='';renderAgenda()">Todos</button>
+      </div>
+      <div class="sec-title" style="padding-top:8px;">Em aberto</div>
+      <div class="filter-row" style="padding-top:0;">
+        <button class="btn-sm btn-outline" id="btn-abertos" onclick="toggleAbertosAgenda()">Ocultar em aberto</button>
+      </div>
+      <div id="agenda-open-list"></div>
+    </div>
+
+    <!-- TAB NOVO -->
+    <div id="tab-novo" style="display:none">
+      <div class="sec-title" id="form-title-sec">Novo Agendamento</div>
+      <div class="form-wrap">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nome da cliente</label>
+            <input class="form-input" id="f-nome" placeholder="Nome completo" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telefone / WhatsApp</label>
+            <input class="form-input" id="f-tel" placeholder="(00) 00000-0000" type="tel" inputmode="tel" maxlength="15" autocomplete="tel" oninput="maskTelefone(this)">
+            <div class="field-help">Dica: digite só números que eu formato pra você.</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Data</label>
+            <input type="date" class="form-input" id="f-data" onchange="renderHorarios()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select class="form-select" id="f-status">
+              <option value="confirmado">✓ Confirmado</option>
+              <option value="pendente">⏳ Pendente</option>
+              <option value="cancelado">✗ Cancelado</option>
+              <option value="concluido">★ Concluído</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Horário</label>
+          <input type="time" class="form-input" id="f-horario" step="1800" oninput="selHorario=this.value">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">O que será feito</label>
+          <textarea class="form-textarea" id="f-servico" placeholder="Ex: Manicure com esmaltação em gel, nail art floral, referência enviada no WhatsApp..." rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Observações adicionais</label>
+          <textarea class="form-textarea" id="f-obs" placeholder="Alergias, preferências, cor desejada..." rows="2"></textarea>
+        </div>
+
+        <button class="btn-primary" id="btn-salvar" onclick="salvar()">Confirmar Agendamento</button>
+        <div style="height: 12px;"></div>
+      </div>
+    </div>
+
+    <!-- TAB PAINEL (só faturamento) -->
+    <div id="tab-painel" style="display:none">
+      <div class="sec-title">Faturamento</div>
+      <div id="fat-section"></div>
+      <div class="sec-title">Finalizados</div>
+      <div class="filter-row" style="padding-top:0;">
+        <input class="filter-input" id="filtro-nome-finalizados" placeholder="Filtrar por nome" oninput="renderPainel()">
+        <input type="date" class="filter-input" id="filtro-data-finalizados" onchange="renderPainel()">
+        <button class="btn-sm btn-outline" id="btn-finalizados" onclick="toggleFinalizadosPainel()">Mostrar finalizados</button>
+      </div>
+      <div id="painel-finalizados-list"></div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" id="nav-agenda" onclick="showTab('agenda')">
+      <span class="nav-icon">🗓️</span>
+      <span class="nav-label">Agenda</span>
+    </button>
+    <button class="nav-item" id="nav-novo" onclick="showTab('novo')">
+      <span class="nav-icon">✦</span>
+      <span class="nav-label">Agendar</span>
+    </button>
+    <button class="nav-item" id="nav-painel" onclick="showTab('painel')">
+      <span class="nav-icon">📈</span>
+      <span class="nav-label">Painel</span>
+    </button>
+  </nav>
+</div>
+
+<!-- FINALIZAR MODAL (bottom sheet) -->
+<div class="finalize-modal" id="fin-modal">
+  <div class="finalize-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Finalizar Atendimento</div>
+    <div class="sheet-name" id="fin-client-name"></div>
+    <div class="sheet-body">
+      <label class="sheet-label">Valor cobrado (R$)</label>
+      <input class="sheet-input" type="number" inputmode="decimal" id="fin-preco" placeholder="Ex: 80,00" step="0.01" min="0">
+      <label class="sheet-label">Observação final (opcional)</label>
+      <input class="sheet-input" id="fin-obs" placeholder="Ex: cliente adorou, repetiu nail art...">
+      <button class="sheet-btn" onclick="confirmarFinalizar()">Marcar como Concluído</button>
+      <span class="sheet-cancel" onclick="closeFin()">Cancelar</span>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="del-modal" id="del-modal">
+  <div class="del-box">
+    <div class="del-title">Excluir?</div>
+    <div class="del-sub">Esta ação não pode ser desfeita. O agendamento será removido.</div>
+    <div class="del-actions">
+      <button class="del-btn-ghost" onclick="closeDel()">Cancelar</button>
+      <button class="del-btn-danger" id="btn-del-confirm">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+
+<script>
+// ── FIREBASE CONFIG ──
+const firebaseConfig = {
+  apiKey: "AIzaSyDUMQ2ManeWsRCwi83hid3knLZ97R5VgT0",
+  authDomain: "brenda-nails-22301.firebaseapp.com",
+  projectId: "brenda-nails-22301",
+  storageBucket: "brenda-nails-22301.firebasestorage.app",
+  messagingSenderId: "411615467811",
+  appId: "1:411615467811:web:05b26131df0b9087585496",
+  measurementId: "G-J95NWNP4NX"
+};
+
+let firebaseReady = false;
+let auth = null;
+let db = null;
+let stopAgsListener = null;
+let appStarted = false;
+let mostrarAbertosAgenda = true;
+let mostrarFinalizadosPainel = false;
+
+try {
+  const appFirebase = firebase.initializeApp(firebaseConfig);
+  auth = firebase.auth(appFirebase);
+  db = firebase.firestore(appFirebase);
+  firebaseReady = Object.values(firebaseConfig).every(v => !!v);
+} catch (err) {
+  console.error(err);
+}
+
+function getAgsRef() {
+  const uid = auth?.currentUser?.uid;
+  if(!uid || !db) return null;
+  return db.collection('usuarios').doc(uid).collection('agendamentos');
+}
+
+function getCacheKey() {
+  const uid = auth?.currentUser?.uid || 'local';
+  return `bn_ags_cache_${uid}`;
+}
+
+function saveLocalAgs() {
+  try {
+    localStorage.setItem(getCacheKey(), JSON.stringify(ags));
+  } catch (err) {
+    console.error('Falha ao salvar cache local:', err);
+  }
+}
+
+function loadLocalAgs() {
+  try {
+    const raw = localStorage.getItem(getCacheKey());
+    return raw ? JSON.parse(raw) : [];
+  } catch (err) {
+    console.error('Falha ao ler cache local:', err);
+    return [];
+  }
+}
+
+function abrirApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+function fecharApp() {
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+
+async function entrar() {
+  if(!firebaseReady) {
+    document.getElementById('login-error').textContent = 'Configure o Firebase no código antes de entrar.';
+    return;
+  }
+  if(location.protocol === 'file:') {
+    document.getElementById('login-error').textContent = 'Abra pelo localhost (ex.: Live Server), nao por arquivo direto.';
+    return;
+  }
+  const email = document.getElementById('email').value.trim();
+  const senha = document.getElementById('senha').value;
+  if(!email || !senha) {
+    document.getElementById('login-error').textContent = 'Informe e-mail e senha.';
+    return;
+  }
+  try {
+    await auth.signInWithEmailAndPassword(email, senha);
+    document.getElementById('login-error').textContent = '';
+  } catch (e) {
+    const msgByCode = {
+      'auth/invalid-credential': 'E-mail ou senha invalido.',
+      'auth/user-not-found': 'Usuario nao encontrado.',
+      'auth/wrong-password': 'Senha incorreta.',
+      'auth/invalid-email': 'Formato de e-mail invalido.',
+      'auth/operation-not-allowed': 'Ative login por e-mail/senha no Firebase Auth.',
+      'auth/too-many-requests': 'Muitas tentativas. Aguarde e tente novamente.',
+      'auth/api-key-not-valid.-please-pass-a-valid-api-key.': 'API Key invalida no Firebase. Confira a chave em Configuracoes do Projeto.'
+    };
+    document.getElementById('login-error').textContent = msgByCode[e.code] || 'Erro no login: ' + (e.code || 'desconhecido');
+    console.error('Erro Firebase Auth:', e.code, e.message);
+  }
+}
+
+async function sair() {
+  try {
+    if(auth) await auth.signOut();
+  } catch (e) {
+    console.error(e);
+  }
+  if(stopAgsListener) {
+    stopAgsListener();
+    stopAgsListener = null;
+  }
+  document.getElementById('senha').value = '';
+  document.getElementById('login-error').textContent = '';
+}
+
+// ── HORÁRIOS ──
+function gerarHorarios() {
+  const hs = [];
+  for(let h = 7; h <= 21; h++) {
+    hs.push(`${String(h).padStart(2,'0')}:00`);
+    if(h < 21) hs.push(`${String(h).padStart(2,'0')}:30`);
+  }
+  return hs;
+}
+const HORARIOS = gerarHorarios();
+
+// ── DADOS ──
+let ags = [];
+let editId = null, selHorario = null;
+let finId = null, delId = null;
+
+function today() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function fmtDate(s) { if(!s) return ''; const [y,m,d]=s.split('-'); return `${d}/${m}/${y}`; }
+
+function fmtPhone(tel) {
+  if(!tel) return '';
+  return tel.replace(/\D/g,'');
+}
+
+function maskTelefone(input) {
+  const v = (input.value || '').replace(/\D/g,'').slice(0, 11);
+  if(!v) { input.value=''; return; }
+  const ddd = v.slice(0,2);
+  const p1 = v.slice(2,7);
+  const p2 = v.slice(7,11);
+  if(v.length <= 2) input.value = `(${ddd}`;
+  else if(v.length <= 7) input.value = `(${ddd}) ${v.slice(2)}`;
+  else input.value = `(${ddd}) ${p1}-${p2}`;
+}
+
+// ── TABS ──
+function showTab(t) {
+  ['agenda','novo','painel'].forEach(x => {
+    document.getElementById('tab-'+x).style.display = x===t?'block':'none';
+    document.getElementById('nav-'+x).classList.toggle('active', x===t);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(t==='agenda') renderAgenda();
+  if(t==='painel') renderPainel();
+  if(t==='novo' && !editId) resetForm();
+}
+
+// ── STATS ──
+function renderStats() {
+  const now = new Date();
+  const ym = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const startW = new Date(now); startW.setDate(now.getDate()-now.getDay());
+  const endW = new Date(startW); endW.setDate(startW.getDate()+6);
+  const hoje = ags.filter(a=>a.data===today()&&a.status!=='cancelado').length;
+  const semana = ags.filter(a=>{const d=new Date(a.data+'T00:00');return d>=startW&&d<=endW&&a.status!=='cancelado';}).length;
+  const mes = ags.filter(a=>a.data.startsWith(ym)&&a.status!=='cancelado').length;
+  document.getElementById('stats-cont').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${hoje}</div><div class="stat-label">Hoje</div></div>
+    <div class="stat-card"><div class="stat-num">${semana}</div><div class="stat-label">Semana</div></div>
+    <div class="stat-card"><div class="stat-num">${mes}</div><div class="stat-label">Mês</div></div>`;
+}
+
+// ── AGENDA ──
+function setHoje() {
+  document.getElementById('filtro-data').value = today();
+  renderAgenda();
+}
+
+function renderAgenda() {
+  renderStats();
+  const filtro = document.getElementById('filtro-data').value;
+  let base = filtro ? ags.filter(a=>a.data===filtro) : [...ags];
+  base.sort((a,b)=>(a.data+a.horario).localeCompare(b.data+b.horario));
+
+  const abertos = base.filter(a=>a.status!=='concluido' && a.status!=='cancelado');
+  const openEl = document.getElementById('agenda-open-list');
+  document.getElementById('btn-abertos').textContent = mostrarAbertosAgenda ? 'Ocultar em aberto' : 'Mostrar em aberto';
+
+  if(!mostrarAbertosAgenda) {
+    openEl.innerHTML = `<div class="empty-state"><p>Lista de em aberto oculta.</p></div>`;
+    return;
+  }
+
+  if(!abertos.length) {
+    openEl.innerHTML = `<div class="empty-state">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="3" stroke="#dbbba8" stroke-width="1.5"/><path d="M8 2v4M16 2v4M3 10h18" stroke="#dbbba8" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <p>Nenhum agendamento em aberto${filtro?' para '+fmtDate(filtro):''}</p>
+    </div>`;
+  } else {
+    openEl.innerHTML = abertos.map(a=>cardHTML(a, !!filtro)).join('');
+  }
+}
+
+function toggleAbertosAgenda() {
+  mostrarAbertosAgenda = !mostrarAbertosAgenda;
+  renderAgenda();
+}
+
+function cardHTML(a, hideDate) {
+  const sm = {confirmado:{l:'Confirmado',c:'s-confirmado'},pendente:{l:'Pendente',c:'s-pendente'},cancelado:{l:'Cancelado',c:'s-cancelado'},concluido:{l:'Concluído',c:'s-concluido'}};
+  const st = sm[a.status]||sm.confirmado;
+  const phoneNum = fmtPhone(a.telefone);
+  const phoneHref = phoneNum ? `https://wa.me/55${phoneNum}` : '';
+
+  return `<div class="apt-card" id="card-${a.id}">
+    <div class="card-top">
+      <div class="card-header">
+        <div class="client-name">${a.nome}</div>
+        <div class="time-badge">${a.horario}</div>
+      </div>
+      ${a.servico?`<div class="card-servico">${a.servico}</div>`:''}
+      <div class="card-tags">
+        ${a.preco?`<span class="tag tag-price">💰 R$ ${parseFloat(a.preco).toFixed(2).replace('.',',')}</span>`:''}
+        ${!hideDate?`<span class="tag tag-date">📅 ${fmtDate(a.data)}</span>`:''}
+        <span class="status-badge ${st.c}">${st.l}</span>
+      </div>
+    </div>
+    ${a.telefone?`
+    <div class="card-phone-row">
+      <a class="card-phone-link" href="${phoneHref}" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="#25D366"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.978-1.307A9.953 9.953 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z" stroke="#25D366" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        ${a.telefone}
+      </a>
+    </div>`:''}
+    ${a.obs?`<div class="card-obs">"${a.obs}"</div>`:''}
+    <div class="card-actions">
+      <button class="act-btn" onclick="startEdit('${a.id}')">Editar</button>
+      ${a.status!=='concluido'?`<button class="act-btn done" onclick="openFin('${a.id}')">Finalizar</button>`:`<button class="act-btn done" style="color:#aaa">Pago ${a.preco?'R$'+parseFloat(a.preco).toFixed(2).replace('.',','):''}</button>`}
+      ${a.status!=='cancelado'?`<button class="act-btn cancel" onclick="setStatus('${a.id}','cancelado')">Cancelar</button>`:`<button class="act-btn" onclick="setStatus('${a.id}','confirmado')">Reativar</button>`}
+      <button class="act-btn del" onclick="openDel('${a.id}')">Excluir</button>
+    </div>
+  </div>`;
+}
+
+function setStatus(id, status) {
+  const a = ags.find(x=>x.id===id);
+  if(!a) return;
+  a.status = status;
+  salvarAgendamento(a)
+    .then(() => toast('Status atualizado!'))
+    .catch(() => toast('Erro ao atualizar status.'));
+}
+
+// ── FINALIZAR ──
+function openFin(id) {
+  const a = ags.find(x=>x.id===id);
+  if(!a) return;
+  finId = id;
+  document.getElementById('fin-client-name').textContent = a.nome;
+  document.getElementById('fin-preco').value = a.preco||'';
+  document.getElementById('fin-obs').value = '';
+  document.getElementById('fin-modal').classList.add('show');
+}
+function closeFin() { finId=null; document.getElementById('fin-modal').classList.remove('show'); }
+function confirmarFinalizar() {
+  const a = ags.find(x=>x.id===finId);
+  if(!a) return;
+  const preco = document.getElementById('fin-preco').value;
+  const obs = document.getElementById('fin-obs').value.trim();
+  a.status = 'concluido';
+  a.preco = preco;
+  if(obs) a.obs = (a.obs?a.obs+' | ':'')+obs;
+  salvarAgendamento(a)
+    .then(() => {
+      closeFin();
+      toast('Atendimento finalizado! ✦');
+    })
+    .catch(() => toast('Erro ao finalizar atendimento.'));
+}
+
+// ── DELETE ──
+function openDel(id) { delId=id; document.getElementById('del-modal').classList.add('show'); }
+function closeDel() { delId=null; document.getElementById('del-modal').classList.remove('show'); }
+document.getElementById('btn-del-confirm').onclick = () => {
+  excluirAgendamento(delId)
+    .then(() => {
+      closeDel();
+      toast('Agendamento excluido.');
+    })
+    .catch(() => toast('Erro ao excluir agendamento.'));
+};
+
+// ── FORM ──
+function resetForm() {
+  editId = null; selHorario = null;
+  document.getElementById('f-nome').value = '';
+  document.getElementById('f-tel').value = '';
+  document.getElementById('f-data').value = today();
+  document.getElementById('f-status').value = 'confirmado';
+  document.getElementById('f-servico').value = '';
+  document.getElementById('f-obs').value = '';
+  document.getElementById('form-title-sec').textContent = 'Novo Agendamento';
+  document.getElementById('btn-salvar').textContent = 'Confirmar Agendamento';
+  renderHorarios();
+}
+
+function renderHorarios() {
+  const data = document.getElementById('f-data').value;
+  document.getElementById('horario-grid').innerHTML = HORARIOS.map(h => {
+    const ocupado = ags.some(a=>a.data===data&&a.horario===h&&a.id!==editId&&a.status!=='cancelado');
+    return `<button class="h-btn${h===selHorario?' selected':''}" ${ocupado?'disabled':''} onclick="selH('${h}')">${h}</button>`;
+  }).join('');
+}
+
+function selH(h) { selHorario=h; renderHorarios(); }
+
+function startEdit(id) {
+  const a = ags.find(x=>x.id===id);
+  if(!a) return;
+  editId = id; selHorario = a.horario;
+  document.getElementById('f-nome').value = a.nome;
+  document.getElementById('f-tel').value = a.telefone||'';
+  document.getElementById('f-data').value = a.data;
+  document.getElementById('f-status').value = a.status;
+  document.getElementById('f-servico').value = a.servico||'';
+  document.getElementById('f-obs').value = a.obs||'';
+  document.getElementById('form-title-sec').textContent = 'Editar Agendamento';
+  document.getElementById('btn-salvar').textContent = 'Salvar Alterações';
+  renderHorarios();
+  showTab('novo');
+}
+
+function salvar() {
+  const nome = document.getElementById('f-nome').value.trim();
+  const servico = document.getElementById('f-servico').value.trim();
+  if(!nome||!selHorario) { toast('Preencha o nome e o horário!'); return; }
+  const id = editId||'ag_'+Date.now();
+  const obj = {
+    id, nome,
+    telefone: document.getElementById('f-tel').value.trim(),
+    data: document.getElementById('f-data').value,
+    horario: selHorario,
+    servico,
+    status: document.getElementById('f-status').value,
+    obs: document.getElementById('f-obs').value.trim(),
+    preco: editId ? (ags.find(a=>a.id===editId)?.preco||'') : '',
+  };
+  salvarAgendamento(obj)
+    .then(() => {
+      toast(editId ? 'Agendamento atualizado!' : 'Agendado com sucesso! ✦');
+      showTab('agenda');
+      setHoje();
+    })
+    .catch(() => toast('Erro ao salvar no Firebase.'));
+}
+
+// ── PAINEL ──
+function renderPainel() {
+  const now = new Date();
+  const ym = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const startW = new Date(now); startW.setDate(now.getDate()-now.getDay());
+  const endW = new Date(startW); endW.setDate(startW.getDate()+6);
+  const conc = ags.filter(a=>a.status==='concluido');
+  const concMes = conc.filter(a=>a.data.startsWith(ym));
+  const concSem = conc.filter(a=>{const d=new Date(a.data+'T00:00');return d>=startW&&d<=endW;});
+  const fat = (list) => list.reduce((s,a)=>s+(parseFloat(a.preco)||0),0);
+  document.getElementById('fat-section').innerHTML = `
+    <div class="fat-card">
+      <div class="fat-title">✦ Faturamento (serviços concluídos)</div>
+      <div class="fat-grid">
+        <div class="fat-item"><div class="fat-val">R$${fat(concSem).toFixed(2).replace('.',',')}</div><div class="fat-lab">Esta semana</div></div>
+        <div class="fat-item"><div class="fat-val">R$${fat(concMes).toFixed(2).replace('.',',')}</div><div class="fat-lab">Este mês</div></div>
+        <div class="fat-item"><div class="fat-val">${conc.length}</div><div class="fat-lab">Concluídos</div></div>
+      </div>
+    </div>`;
+
+  document.getElementById('btn-finalizados').textContent = mostrarFinalizadosPainel ? 'Ocultar finalizados' : 'Mostrar finalizados';
+  const listEl = document.getElementById('painel-finalizados-list');
+  if(!mostrarFinalizadosPainel) {
+    listEl.innerHTML = `<div class="empty-state"><p>Toque no botão para ver os finalizados.</p></div>`;
+    return;
+  }
+
+  const finalizados = [...conc].sort((a,b)=>(b.data+b.horario).localeCompare(a.data+a.horario));
+  listEl.innerHTML = finalizados.length
+    ? finalizados.map(a=>cardHTML(a,false)).join('')
+    : `<div class="empty-state"><p>Nenhum agendamento finalizado.</p></div>`;
+}
+
+function toggleFinalizadosPainel() {
+  mostrarFinalizadosPainel = !mostrarFinalizadosPainel;
+  renderPainel();
+}
+
+// ── TOAST ──
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+// ── INIT ──
+function init() {
+  document.getElementById('filtro-data').value = today();
+  ags = loadLocalAgs();
+  renderAgenda();
+  renderPainel();
+  renderHorarios();
+
+  const agsRef = getAgsRef();
+  if(!agsRef) {
+    toast('Sem conexao com Firebase. Usando dados locais.');
+    return;
+  }
+
+  if(stopAgsListener) stopAgsListener();
+  stopAgsListener = agsRef.onSnapshot((snap) => {
+    ags = snap.docs.map(d => d.data());
+    saveLocalAgs();
+    renderAgenda();
+    renderPainel();
+    renderHorarios();
+  }, () => {
+    ags = loadLocalAgs();
+    renderAgenda();
+    renderPainel();
+    renderHorarios();
+    toast('Firebase indisponivel. Exibindo dados locais.');
+  });
+}
+
+async function salvarAgendamento(obj) {
+  const i = ags.findIndex(a => a.id === obj.id);
+  if(i >= 0) ags[i] = obj;
+  else ags.push(obj);
+  saveLocalAgs();
+
+  const agsRef = getAgsRef();
+  if(!agsRef) return;
+  try {
+    await agsRef.doc(obj.id).set(obj, { merge: true });
+  } catch (err) {
+    console.error('Falha no Firebase, salvo localmente:', err);
+    toast('Salvo localmente. Sincroniza ao reconectar.');
+  }
+}
+
+async function excluirAgendamento(id) {
+  ags = ags.filter(a => a.id !== id);
+  saveLocalAgs();
+
+  const agsRef = getAgsRef();
+  if(!agsRef) return;
+  try {
+    await agsRef.doc(id).delete();
+  } catch (err) {
+    console.error('Falha ao excluir no Firebase:', err);
+    toast('Excluido localmente. Sincroniza ao reconectar.');
+  }
+}
+
+// Fechar modais clicando fora
+document.getElementById('fin-modal').addEventListener('click', function(e) {
+  if(e.target===this) closeFin();
+});
+document.getElementById('del-modal').addEventListener('click', function(e) {
+  if(e.target===this) closeDel();
+});
+
+if(auth && firebaseReady) {
+  auth.onAuthStateChanged((user) => {
+    if(user) {
+      abrirApp();
+      if(!appStarted) {
+        init();
+        appStarted = true;
+      }
+    } else {
+      appStarted = false;
+      fecharApp();
+    }
+  });
+} else {
+  document.getElementById('login-error').textContent = 'Firebase ainda nao configurado.';
+}
+</script>
+</body>
+</html>
